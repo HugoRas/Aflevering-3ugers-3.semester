@@ -1,0 +1,87 @@
+ECG Web System — Installation & Technical Overview
+
+This repository contains a prototype ECG web system developed as part of a 3-week semester assignment.
+The system enables patients to upload ECG recordings from home, processes the signals asynchronously, and allows clinicians to view filtered signals, plots, and comments through a web interface.
+
+The system is implemented using Flask (Python), MariaDB, and a background worker for signal processing, and is intended to run on a Linux-based server environment.
+
+SYSTEM ARCHITECTURE OVERVIEW
+The system follows a layered architecture inspired by the Model–View–Controller (MVC) pattern and separates concerns across presentation, application logic, and data access layers.
+
+Main Components
+Flask Web Application:
+- Handles HTTP requests and responses
+- Implements authentication and Role-Based Access Control (RBAC)
+- Provides web interfaces for patients, clinicians, and administrators
+- Receives ECG uploads (.dat + .hea) and stores metadata in the database
+
+Background Worker:
+- Runs independently of the web application
+- Polls the database for queued ECG recordings
+- Performs signal processing (filtering, feature extraction)
+- Generates plots and stores output paths and processing status
+
+Database (MariaDB):
+- Stores users, roles, patients, recordings, signals, and clinician comments
+- Acts as coordination point between web application and worker
+
+AUTHENTICATION, SESSIONS, AND RBAC
+Authentication logic resides in controllers/auth.py.
+User credentials are validated against hashed passwords using verify_password().
+Passwords are never stored in plaintext.
+
+Upon successful login, the user_id and role are stored in the Flask session.
+Only minimal identity-related information is stored.
+Sessions are cleared on logout.
+
+Authorization is enforced using a custom require_role() decorator.
+This implements RBAC and adheres to the principle of least privilege.
+RBAC follows the NIST RBAC model.
+
+REQUIREMENTS
+Linux (Ubuntu/Debian recommended)
+Python 3.10+
+Git
+MariaDB Server
+Apache2
+python3-venv
+
+INSTALLATION
+1. Clone repository
+git clone https://github.com/HugoRas/Aflevering-3ugers-3.semester.git
+cd Aflevering-3ugers-3.semester
+
+2. Virtual environment
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+3. Database setup
+CREATE DATABASE ecg_db;
+CREATE USER 'ecg_user'@'localhost' IDENTIFIED BY 'strong_password';
+GRANT ALL PRIVILEGES ON ecg_db.* TO 'ecg_user'@'localhost';
+FLUSH PRIVILEGES;
+
+4. Filesystem setup
+mkdir -p data/raw data/filtered data/plots logs
+
+RUNNING THE SYSTEM
+Development:
+flask run
+python processor.py
+
+PRODUCTION
+Use Apache reverse proxy and Gunicorn.
+
+VERIFICATION
+- Login works
+- Upload works
+- Processing completes
+- Plots visible
+- RBAC enforced
+
+NOTES
+Prototype system
+SHA-256 hashing
+Worker must be running
