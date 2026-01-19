@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Medical record</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('clinician.dashboard') }}" class="active">Search medical record</a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+
+      <header class="dashboard-header">
+        <h1>Medical record</h1>
+      </header>
+
+      <section class="mr-section">
+        <h2>Patient information</h2>
+        <hr class="mr-line">
+
+        <div class="mr-row">
+          <span>Name:</span>
+          <span>{{ patient.name if patient else 'Unknown' }}</span>
+        </div>
+
+        <div class="mr-row">
+          <span>Patient ID:</span>
+          <span>{{ rec.patient_id }}</span>
+        </div>
+
+        <div class="mr-row">
+          <span>Recording ID:</span>
+          <span>{{ rec.recording_id }}</span>
+        </div>
+
+        <div class="mr-row">
+          <span>Status:</span>
+          <span>{{ rec.status }}</span>
+        </div>
+
+        {% if rec.status == 'FAILED' %}
+          <p style="color:#b00020;">Error: {{ rec.error_message }}</p>
+        {% endif %}
+      </section>
+
+      <section class="mr-section">
+        <h2>ECG plots</h2>
+        <hr class="mr-line">
+
+        {% if rec.status == 'DONE' %}
+          <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <div>
+              <h3>Time domain</h3>
+              <img src="{{ time_plot_url }}" alt="Time plot" style="max-width:520px; width:100%;">
+            </div>
+            <div>
+              <h3>Frequency domain</h3>
+              <img src="{{ freq_plot_url }}" alt="Frequency plot" style="max-width:520px; width:100%;">
+            </div>
+          </div>
+        {% else %}
+          <p>Processing not finished. Current status: <b>{{ rec.status }}</b></p>
+        {% endif %}
+      </section>
+
+      <section class="mr-section">
+        <h2>Clinician comments</h2>
+        <hr class="mr-line">
+
+        <form method="POST">
+          <textarea name="comment_text" placeholder="Write comment..." style="width:100%; min-height:90px;"></textarea>
+          <button type="submit" class="btn-secondary active-btn" style="margin-top:10px;">Add comment</button>
+        </form>
+
+        {% if comments %}
+          <ul style="margin-top:14px;">
+            {% for c in comments %}
+              <li><b>User {{ c.clinician_user_id }}</b> ({{ c.created_at }}): {{ c.comment_text }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p style="margin-top:12px;">No comments yet.</p>
+        {% endif %}
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Database Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('admin.logs') }}">Log Access</a>
+        <a href="{{ url_for('admin.users') }}">User Management</a>
+        <a href="{{ url_for('admin.db_page') }}" class="active">Database Management</a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <h1>Database Management</h1>
+        <p>Placeholder in skeleton</p>
+      </header>
+
+      <div class="admin-card">
+        <button class="btn-secondary" disabled>Backup Database</button>
+        <button class="btn-secondary" disabled>Restore Database</button>
+        <button class="btn-secondary" disabled>Clear Temporary Data</button>
+        <p style="margin-top:10px;">(Not implemented in skeleton)</p>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

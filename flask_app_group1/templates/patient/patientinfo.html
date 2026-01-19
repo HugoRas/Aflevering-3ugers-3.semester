@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Patientinfo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('patient.dashboard') }}"
+           class="{{ 'active' if active_page=='dashboard' else '' }}">
+          Dashboard
+        </a>
+
+        <a href="{{ url_for('patient.patientinfo') }}"
+           class="{{ 'active' if active_page=='patientinfo' else '' }}">
+          Patientinfo
+        </a>
+
+        <!-- ✅ NYT LINK -->
+        <a href="{{ url_for('patient.medicalrecord') }}"
+           class="{{ 'active' if active_page=='medicalrecord' else '' }}">
+          Medical record
+        </a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+
+      <header class="dashboard-header">
+        <h1>Patient Info</h1>
+      </header>
+
+      <section class="upload-card">
+        <form method="POST" action="{{ url_for('patient.patientinfo') }}">
+          <label>Name</label><br>
+          <input type="text" name="name"
+                 value="{{ patient.name if patient else '' }}"><br><br>
+
+          <button type="submit" class="btn-secondary active-btn">
+            Update Information
+          </button>
+        </form>
+
+        {% if msg %}
+          <p style="margin-top:12px;">{{ msg }}</p>
+        {% endif %}
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

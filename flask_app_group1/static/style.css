@@ -1,0 +1,391 @@
+/* -------------------------------
+   Generelle styles
+---------------------------------*/
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #fff;
+}
+
+/* -------------------------------
+   Landing Page
+---------------------------------*/
+.landing-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  background: linear-gradient(135deg, #DF9E9C, #F2C1C0);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* -------------------------------
+   Knapper
+---------------------------------*/
+#btn-login {
+  background-color: #78A65A;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#btn-login:hover {
+  background-color: #67914b;
+}
+
+#btn-register {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#btn-register:hover {
+  background-color: white;
+  color: #78A65A;
+}
+
+/* -------------------------------
+   Højre side: hjerte
+---------------------------------*/
+.image-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart-icon {
+  width: 150px;
+  height: 150px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* -------------------------------
+   Login Page
+---------------------------------*/
+.login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #DF9E9C, #F2C1C0);
+}
+
+.login-card {
+  background-color: #f3f3f3;
+  padding: 3rem;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #333;
+}
+
+.login-card h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-text {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.login-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card label {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.login-card input {
+  padding: 0.7rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.login-card button {
+  background-color: #78A65A;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-card button:hover {
+  background-color: #67914b;
+}
+
+/* -------------------------------
+   Dashboard Layout
+---------------------------------*/
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* -------------------------------
+   Sidebar
+---------------------------------*/
+.sidebar {
+  width: 260px;
+  background-color: #EFA3A0;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* -------------------------------
+   Sidebar navigation
+---------------------------------*/
+.sidebar-nav a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  padding: 0.8rem 1rem;
+  position: relative;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+}
+
+.sidebar-nav a:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background-color: #333;
+  border-radius: 0 4px 4px 0;
+}
+
+.sidebar-nav a.active {
+  font-weight: bold;
+  background-color: #fff;
+  color: #333;
+}
+
+.sidebar-nav a.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background-color: #333;
+  border-radius: 0 4px 4px 0;
+}
+
+/* -------------------------------
+   Logout
+---------------------------------*/
+.logout-btn {
+  margin-top: auto;
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #992d22;
+}
+
+/* -------------------------------
+   Main content
+---------------------------------*/
+.dashboard-content {
+  flex: 1;
+  background-color: #f3f3f3;
+  padding: 3rem;
+  color: #333;
+  overflow: hidden;
+}
+
+/* -------------------------------
+   Header
+---------------------------------*/
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.dashboard-header p {
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+/* -------------------------------
+   Upload card
+---------------------------------*/
+.upload-card {
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  padding: 3rem;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  text-align: center;
+  color: #333;
+}
+
+.upload-card input {
+  background-color: #fafafa;
+  border: 1px solid #bbb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.upload-card h2 {
+  margin-bottom: 2rem;
+}
+
+.upload-icon {
+  margin-bottom: 1rem;
+}
+
+/* -------------------------------
+   Buttons
+---------------------------------*/
+.btn-secondary {
+  display: block;
+  width: 200px;
+  margin: 1rem auto;
+  padding: 0.7rem;
+  font-size: 1rem;
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #ccc;
+}
+
+.btn-secondary.active-btn {
+  background-color: #78A65A;
+  color: white;
+  border-color: #78A65A;
+}
+
+/* -------------------------------
+   Medical record table
+---------------------------------*/
+.mr-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.mr-table th,
+.mr-table td {
+  border: 1px solid #999;
+  padding: 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.mr-table th {
+  background-color: #eaeaea;
+  font-weight: bold;
+}
+
+/* -------------------------------
+   Medical record sections
+---------------------------------*/
+.mr-section h2 {
+  margin-bottom: 0.2rem;
+}
+
+.mr-line {
+  margin-top: 0.3rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-top: 1px solid #333;
+}
+
+/* -------------------------------
+   Scrollable uploads/comments
+---------------------------------*/
+.scroll-box {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+/* Sticky table header */
+.scroll-box .mr-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #eaeaea;
+  z-index: 2;
+}
+
+/* Comments */
+.comment-list {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.comment-list li {
+  margin-bottom: 0.4rem;
+}

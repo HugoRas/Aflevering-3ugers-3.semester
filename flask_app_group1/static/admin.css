@@ -1,0 +1,209 @@
+/* -------------------------------
+   General Styles
+---------------------------------*/
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f3f3f3;
+}
+
+/* -------------------------------
+   Dashboard Layout
+---------------------------------*/
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* -------------------------------
+   Sidebar
+---------------------------------*/
+.sidebar {
+  width: 260px;
+  background-color: #EFA3A0;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  padding: 0.8rem 1rem;
+  position: relative;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+}
+
+.sidebar-nav a:hover::before,
+.sidebar-nav a.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background-color: #333;
+  border-radius: 0 4px 4px 0;
+  z-index: 1;
+}
+
+.sidebar-nav a.active {
+  font-weight: bold;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Logout Button */
+.logout-btn {
+  margin-top: auto;
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #992d22;
+}
+
+/* -------------------------------
+   Main Content
+---------------------------------*/
+.dashboard-content {
+  flex: 1;
+  background-color: #f3f3f3;
+  padding: 3rem;
+  overflow-y: auto;
+}
+
+/* Dashboard Header */
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.dashboard-header p {
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+/* -------------------------------
+   Buttons
+---------------------------------*/
+.btn-secondary {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+.btn-secondary:hover {
+  background-color: #ccc;
+}
+
+.btn-secondary.active-btn {
+  background-color: #78A65A;
+  color: white;
+  border-color: #78A65A;
+}
+
+/* -------------------------------
+   Tables
+---------------------------------*/
+.mr-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.mr-table th,
+.mr-table td {
+  border: 1px solid #999;
+  padding: 0.6rem;
+  text-align: left;
+}
+
+.mr-table th {
+  background-color: #eaeaea;
+  font-weight: bold;
+}
+
+/* -------------------------------
+   Admin Cards
+---------------------------------*/
+.admin-card {
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  padding: 2.5rem;
+  max-width: 900px;
+  border: 1px solid #ccc;
+  text-align: center;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.admin-card h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+---------------------------------*/
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .sidebar-nav a {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  .dashboard-content {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-card, .mr-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+}

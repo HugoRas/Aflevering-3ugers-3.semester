@@ -1,0 +1,7 @@
+Flask
+mariadb
+python-dotenv
+wfdb
+numpy
+scipy
+matplotlib

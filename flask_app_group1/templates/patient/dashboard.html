@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Patient Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('patient.dashboard') }}"
+           class="{{ 'active' if active_page == 'dashboard' else '' }}">
+          Dashboard
+        </a>
+
+        <a href="{{ url_for('patient.patientinfo') }}"
+           class="{{ 'active' if active_page == 'patientinfo' else '' }}">
+          Patientinfo
+        </a>
+
+        <a href="{{ url_for('patient.medicalrecord') }}"
+           class="{{ 'active' if active_page == 'medicalrecord' else '' }}">
+          Medical record
+        </a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+
+      <header class="dashboard-header">
+        <h1>Welcome{% if patient_name %}, {{ patient_name }}{% endif %}</h1>
+
+        {# Optional generel besked fra backend #}
+        {% if msg %}
+          <div class="alert alert-info">{{ msg }}</div>
+        {% endif %}
+      </header>
+
+      <section class="upload-card">
+
+        <div class="upload-icon" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 32 29.6">
+            <path fill="#333" d="M23.6,0c-2.9,0-5.4,1.8-6.6,4.4
+              C15.8,1.8,13.3,0,10.4,0
+              C4.7,0,0,4.7,0,10.4
+              c0,5.5,5.4,10.9,13.5,18.5
+              l2.5,2.3l2.5-2.3
+              C26.6,21.3,32,15.9,32,10.4
+              C32,4.7,27.3,0,23.6,0z"/>
+          </svg>
+        </div>
+
+        <h2>Upload ECG Data</h2>
+
+        {% if upload_error %}
+          <div class="alert alert-danger">{{ upload_error }}</div>
+        {% endif %}
+
+        {% if upload_ok %}
+          <div class="alert alert-success">
+            Upload successful. Recording ID: <b>{{ recording_id }}</b>
+          </div>
+        {% endif %}
+
+        <form method="POST"
+              action="{{ url_for('patient.upload') }}"
+              enctype="multipart/form-data"
+              class="upload-form">
+
+          <div class="form-group">
+            <label for="dat_file">.dat file</label><br>
+            <input id="dat_file" type="file" name="dat_file" accept=".dat" required>
+          </div>
+
+          <div class="form-group">
+            <label for="hea_file">.hea file</label><br>
+            <input id="hea_file" type="file" name="hea_file" accept=".hea" required>
+          </div>
+
+          <button class="btn-secondary active-btn" type="submit">Upload</button>
+        </form>
+
+      </section>
+    </main>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ System - Landing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="landing-page">
+    <div class="content">
+      <h1>Welcome to the Electronic Patient Journal</h1>
+      <p>A system for home monitoring of patients with WPW.</p>
+
+      <div class="buttons">
+        <a href="{{ url_for('auth.login') }}">
+          <button id="btn-login">Log in</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="image-side">
+      <svg class="heart-icon" viewBox="0 0 32 29.6">
+        <path fill="#DF9E9C" d="M23.6,0c-2.9,0-5.4,1.8-6.6,4.4C15.8,1.8,13.3,0,10.4,0C4.7,0,0,4.7,0,10.4
+          c0,5.5,5.4,10.9,13.5,18.5l2.5,2.3l2.5-2.3C26.6,21.3,32,15.9,32,10.4C32,4.7,27.3,0,23.6,0z"/>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

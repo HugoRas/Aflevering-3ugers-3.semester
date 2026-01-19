@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Log Access</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('admin.logs') }}" class="active">Log Access</a>
+        <a href="{{ url_for('admin.users') }}">User Management</a>
+        <a href="{{ url_for('admin.db_page') }}">Database Management</a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <h1>Log Access</h1>
+        <p>Download logs</p>
+      </header>
+
+      <div class="admin-card">
+        <ul>
+          <li><a href="{{ url_for('admin.logs_file', filename='app.log') }}">app.log</a></li>
+          <li><a href="{{ url_for('admin.logs_file', filename='worker.log') }}">worker.log</a></li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

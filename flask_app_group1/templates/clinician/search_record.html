@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Search medical record</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('clinician.dashboard') }}"
+           class="{{ 'active' if active_page == 'dashboard' else '' }}">
+          Search medical record
+        </a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <h1>Clinician dashboard</h1>
+        <h3>Recent recordings</h3>
+
+        {% if msg %}
+          <div class="alert alert-info">{{ msg }}</div>
+        {% endif %}
+      </header>
+
+      <!-- Search query -->
+      <form class="search-container" method="GET" action="{{ url_for('clinician.dashboard') }}">
+        <input
+          type="number"
+          name="q"
+          inputmode="numeric"
+          min="1"
+          placeholder="Enter patient id (optional)"
+          value="{{ request.args.get('q', '') }}"
+        />
+        <button type="submit">Search</button>
+
+        {% if request.args.get('q') %}
+          <a class="btn-link" href="{{ url_for('clinician.dashboard') }}">Clear</a>
+        {% endif %}
+      </form>
+
+      {% if recs and recs|length > 0 %}
+        <table class="mr-table">
+          <thead>
+            <tr>
+              <th>Recording ID</th>
+              <th>Patient ID</th>
+              <th>Uploaded</th>
+              <th>Status</th>
+              <th>Open</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in recs %}
+              <tr>
+                <td>{{ r.recording_id }}</td>
+                <td>{{ r.patient_id }}</td>
+                <td>{{ r.upload_time }}</td>
+                <td>
+                  <span class="status-badge status-{{ (r.status or 'UNKNOWN')|lower }}">
+                    {{ r.status }}
+                  </span>
+                </td>
+                <td>
+                  <a href="{{ url_for('clinician.medical_record', recording_id=r.recording_id) }}">View</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No recordings found.</p>
+      {% endif %}
+    </main>
+
+  </div>
+
+</body>
+</html>

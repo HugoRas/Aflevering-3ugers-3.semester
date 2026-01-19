@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – Medical record</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('patient.dashboard') }}"
+           class="{{ 'active' if active_page == 'dashboard' else '' }}">Dashboard</a>
+
+        <a href="{{ url_for('patient.patientinfo') }}"
+           class="{{ 'active' if active_page == 'patientinfo' else '' }}">Patientinfo</a>
+
+        <a href="{{ url_for('patient.medicalrecord') }}"
+           class="{{ 'active' if active_page == 'medicalrecord' else '' }}">Medical record</a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+
+      <header class="dashboard-header">
+        <h1>Medical record</h1>
+      </header>
+
+      <hr class="mr-line">
+
+      <section class="mr-section">
+        <h2>Patient information</h2>
+        <hr class="mr-line">
+
+        <div class="mr-row">
+          <span>Name:</span> <span>{{ patient_name }}</span>
+        </div>
+
+        <div class="mr-row">
+          <span>Patient ID:</span> <span>{{ patient_id }}</span>
+        </div>
+      </section>
+
+      <section class="mr-section">
+        <h2>Diagnosis</h2>
+        <hr class="mr-line">
+
+        <div class="mr-row">
+          <span>Diagnosis:</span> <span>*****</span>
+        </div>
+      </section>
+
+      <!-- Dynamisk del: uploads + comments -->
+      <section class="mr-section">
+        <h2>Uploads & clinician comments</h2>
+        <hr class="mr-line">
+
+        {% if recs and recs|length > 0 %}
+
+          <!-- ✅ Scrollbar wrapper -->
+          <div class="scroll-box">
+            <table class="mr-table">
+              <thead>
+                <tr>
+                  <th>Recording ID</th>
+                  <th>Uploaded</th>
+                  <th>Status</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for r in recs %}
+                  <tr>
+                    <td>{{ r.recording_id }}</td>
+                    <td>{{ r.upload_time }}</td>
+                    <td>{{ r.status }}</td>
+                    <td>
+                      {% set comments = comments_by_recording.get(r.recording_id, []) %}
+                      {% if comments and comments|length > 0 %}
+                        <ul class="comment-list">
+                          {% for c in comments %}
+                            <li>
+                              <b>{{ c.created_at }}</b>: {{ c.comment_text }}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% else %}
+                        <span>No comments yet.</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        {% else %}
+          <p>No uploads yet.</p>
+        {% endif %}
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ – User Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('admin.logs') }}">Log Access</a>
+        <a href="{{ url_for('admin.users') }}" class="active">User Management</a>
+        <a href="{{ url_for('admin.db_page') }}">Database Management</a>
+      </nav>
+
+      <form method="POST" action="{{ url_for('auth.logout') }}">
+        <button class="logout-btn" type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <h1>User Management</h1>
+        <p>Add and reset users</p>
+      </header>
+
+      {% if msg %}
+        <p style="color:green;">{{ msg }}</p>
+      {% endif %}
+
+      <div class="admin-card">
+        <h3>Create user</h3>
+        <form method="POST" action="{{ url_for('admin.users_create') }}">
+          <input name="username" placeholder="username" required>
+          <input name="password" placeholder="password" required>
+          <select name="role">
+            <option value="patient">patient</option>
+            <option value="clinician">clinician</option>
+            <option value="technician">technician</option>
+            <option value="admin">admin</option>
+          </select>
+          <button class="btn-secondary" type="submit">Create</button>
+        </form>
+
+        <hr style="margin:16px 0;">
+
+        <h3>Reset password</h3>
+        <form method="POST" action="{{ url_for('admin.users_reset', user_id=0) }}" id="resetForm">
+          <input name="user_id" placeholder="user_id" required>
+          <input name="new_password" placeholder="new password" required>
+          <button class="btn-secondary" type="submit">Reset</button>
+        </form>
+
+        <script>
+          document.getElementById("resetForm").addEventListener("submit", function(){
+            const uid = this.querySelector('input[name="user_id"]').value;
+            this.action = "{{ url_for('admin.users_reset', user_id=1) }}".replace("/1/reset", "/" + uid + "/reset");
+          });
+        </script>
+
+        <hr style="margin:16px 0;">
+
+        <table class="mr-table">
+          <thead>
+            <tr><th>User ID</th><th>Username</th><th>Role</th></tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+              <tr>
+                <td>{{ u.user_id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.role }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPJ System – Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-card">
+      <h1>Log in</h1>
+
+      {% if error %}
+        <p class="login-text" style="color:#b00020;">{{ error }}</p>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('auth.login') }}">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required />
+
+        <button type="submit" class="btn-primary">Continue</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
