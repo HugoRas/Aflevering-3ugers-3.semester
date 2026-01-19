@@ -1,15 +1,16 @@
-# ECG Web System — Installation & Technical Overview
+# ECG Web System — Installation & Setup Guide
 
-This repository contains a prototype ECG web system developed as part of a 3-week semester assignment.  
-The system enables patients to upload ECG recordings from home, processes the signals asynchronously, and allows clinicians to view filtered signals, plots, and comments through a web interface.
+This repository contains a prototype ECG web system developed as part of a semester assignment.
+The system enables patients to upload ECG recordings, processes signals asynchronously, and allows clinicians to view filtered signals, plots, and comments through a web interface.
 
-The system is implemented using **Flask (Python)**, **MariaDB**, and a **background worker** for signal processing, and is intended to run on a Linux-based server environment.
+The system is implemented using **Flask (Python)**, **MariaDB**, and a **background worker** for signal processing.  
+This README is intended as a **setup and installation guide** and does not contain environment-specific deployment details.
 
 ---
 
 ## System Architecture Overview
 
-The system follows a layered architecture inspired by the **Model–View–Controller (MVC)** pattern and separates concerns across presentation, application logic, and data access layers.
+The system follows a layered architecture inspired by the **Model–View–Controller (MVC)** pattern, separating presentation, application logic, and data access concerns.
 
 ### Main Components
 
@@ -27,28 +28,38 @@ The system follows a layered architecture inspired by the **Model–View–Contr
 
 #### Database (MariaDB)
 - Stores users, roles, patients, recordings, signals, and clinician comments
-- Acts as coordination point between web application and worker
+- Acts as coordination point between the web application and the worker
 
 ---
 
 ## Authentication, Sessions, and RBAC
 
 Authentication logic resides in `controllers/auth.py`.  
-User credentials are validated against hashed passwords using `verify_password()`.  
-Passwords are never stored in plaintext.
+User credentials are validated against hashed passwords using `verify_password()`. Passwords are never stored in plaintext.
 
 Upon successful login, the user identifier (`user_id`) and role (`role`) are stored in the Flask session.  
 Only minimal identity-related information is stored, and sessions are cleared on logout.
 
 Authorization is enforced using a custom `require_role()` decorator.  
-This implements RBAC and adheres to the **principle of least privilege**.  
-The RBAC model follows guidance from **NIST**.
+This implements **Role-Based Access Control (RBAC)** and adheres to the **principle of least privilege**, following established guidance from NIST.
+
+---
+
+## Deployment Model (Generic)
+
+The system is designed to run behind a standard **Apache2** web server configuration.
+
+- Static content can be served directly by Apache.
+- Dynamic requests are forwarded to the Flask application using a **reverse proxy**.
+- The Flask application should be executed using a production WSGI server (e.g. Gunicorn).
+
+This deployment model is commonly supported on university and shared Linux hosting environments.
 
 ---
 
 ## Requirements
 
-- Linux (Ubuntu / Debian recommended)
+- Linux-based operating system
 - Python 3.10 or newer
 - Git
 - MariaDB Server
@@ -59,14 +70,16 @@ The RBAC model follows guidance from **NIST**.
 
 ## Installation
 
-### 1. Clone repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/HugoRas/Aflevering-3ugers-3.semester.git
-cd Aflevering-3ugers-3.semester
+git clone <repository-url>
+cd <repository-directory>
 ```
 
-### 2. Virtual environment
+---
+
+### 2. Create and activate virtual environment
 
 ```bash
 python3 -m venv venv
@@ -75,7 +88,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 3. Database setup
+---
+
+### 3. Database setup (MariaDB)
+
+Create a database and user:
 
 ```sql
 CREATE DATABASE ecg_db;
@@ -84,43 +101,57 @@ GRANT ALL PRIVILEGES ON ecg_db.* TO 'ecg_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
+Update database credentials in the application configuration.
+
+---
+
 ### 4. Filesystem setup
+
+Create required runtime directories:
 
 ```bash
 mkdir -p data/raw data/filtered data/plots logs
 ```
 
+Ensure the application has write access to these directories.
+
 ---
 
 ## Running the System
 
-### Development
+### Development mode
 
 ```bash
-flask run
+flask.py run #PORTNUMBER
 python processor.py
 ```
 
----
-
-## Production
-
-Run the Flask application behind **Apache reverse proxy** and **Gunicorn**.
+- The Flask application handles HTTP requests
+- The background worker processes queued ECG recordings
 
 ---
 
-## Verification
+## Production Considerations
 
-- Login works
-- Upload works
-- Processing completes
-- Plots are visible
-- RBAC is enforced
+- Run the Flask application behind Apache using a reverse proxy
+- Use a WSGI server
+- Enable HTTPS in production environments
+- Restrict filesystem and database permissions according to least privilege
+
+---
+
+## Verification Checklist
+
+- Application reachable through web server
+- Authentication and RBAC function correctly
+- ECG upload succeeds
+- Background processing completes
+- Plots and results are accessible to authorized users
 
 ---
 
 ## Notes
 
-- Prototype system
+- This system is a **prototype**
 - Password hashing uses SHA-256
-- Background worker must be running
+- The background worker must be running for signal processing to occur
