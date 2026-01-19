@@ -3,11 +3,11 @@ import os
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-me")
 
-    DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
-    DB_USER = os.getenv("DB_USER", "st24")
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "st24_DB_password")
-    DB_NAME = os.getenv("DB_NAME", "st24_DB")
-    DB_PORT = int(os.getenv("DB_PORT", "3306"))
+    DB_HOST = os.getenv("DB_HOST", "DUMMY_HOST")
+    DB_USER = os.getenv("DB_USER", "DUMMY_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "DUMMY_PASSWORD")
+    DB_NAME = os.getenv("DB_NAME", "DUMMY_DB_NAME")
+    DB_PORT = int(os.getenv("DB_PORT", "DUMMY_PORT"))
 
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     DATA_ROOT = os.getenv("DATA_ROOT", os.path.join(BASE_DIR, "data"))
