@@ -1,4 +1,4 @@
-# ECG Web System — Installation & Setup Guide
+# ECG Web System - Installation & Setup Guide
 
 This repository contains a prototype ECG web system developed as part of a semester assignment.  
 The system enables patients to upload ECG recordings, processes signals asynchronously, and allows clinicians to view filtered signals, plots, and comments through a web interface.
@@ -50,10 +50,10 @@ This implements **Role-Based Access Control (RBAC)** and adheres to the **princi
 The system is designed to run behind a standard **Apache2** web server configuration.
 
 - Static content can be served directly by Apache
-- Dynamic requests are forwarded to the Flask application using a **reverse proxy**
-- The Flask application should be executed using a production WSGI server (e.g. Gunicorn)
+- Dynamic requests are forwarded to the Flask application using a reverse proxy
+- The Flask application should be executed using a production WSGI server
 
-This deployment model is commonly supported on university and shared Linux hosting environments.
+This deployment model is supported on our specific university and shared Linux hosting environments.
 
 ---
 
@@ -73,7 +73,7 @@ This deployment model is commonly supported on university and shared Linux hosti
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/HugoRas/Aflevering-3ugers-3.semester
 cd flask_app_group1
 ```
 
@@ -175,28 +175,7 @@ If the worker is not running, uploaded recordings will remain queued.
 
 ---
 
-## Production Considerations
-
-- Run the Flask application behind Apache using a reverse proxy
-- Use a WSGI server
-- Enable HTTPS in production environments
-- Restrict filesystem and database permissions according to least privilege
-
----
-
-## Verification Checklist
-
-- Application reachable through web server
-- Authentication and RBAC function correctly
-- ECG upload succeeds
-- Background processing completes
-- Filtered output and plots are generated
-- Results are accessible only to authorized users
-
----
-
 ## Notes
 
 - This system is a **prototype**
-- Password hashing uses SHA-256
 - The background worker must be running for signal processing to occur
