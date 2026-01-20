@@ -75,3 +75,128 @@ This deployment model is commonly supported on university and shared Linux hosti
 ```bash
 git clone <repository-url>
 cd flask_app_group1
+```
+
+---
+
+### 2. Create and activate virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+---
+
+### 3. Database setup (MariaDB)
+
+```sql
+CREATE DATABASE ecg_db;
+CREATE USER 'ecg_user'@'localhost' IDENTIFIED BY 'strong_password';
+GRANT ALL PRIVILEGES ON ecg_db.* TO 'ecg_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Database credentials are provided to the application via environment variables (see Configuration section).
+
+---
+
+### 4. Filesystem setup
+
+```bash
+mkdir -p data/uploads/raw data/uploads/filtered data/plots logs
+```
+
+Ensure the application has write access to these directories.
+
+---
+
+## Configuration
+
+The application is configured through the `Config` class in `config.py`.  
+Configuration values are read from environment variables using `os.getenv(...)`.
+
+### Required environment variables
+
+```bash
+export SECRET_KEY="change-me"
+
+export DB_HOST="localhost"
+export DB_USER="ecg_user"
+export DB_PASSWORD="strong_password"
+export DB_NAME="ecg_db"
+export DB_PORT="3306"
+```
+
+> **Important:**  
+> `DB_PORT` is cast using `int(...)` and must be a valid numeric value.
+
+### Optional environment variables
+
+```bash
+# export DATA_ROOT="/path/to/data"
+# export LOG_DIR="/path/to/logs"
+```
+
+---
+
+## Operation
+
+The system runs as **two cooperating processes**:
+
+### Web application (`app.py`)
+- Handles authentication and RBAC
+- Accepts ECG uploads and creates database records
+- Serves role-based views and results
+
+### Background worker (`processor.py`)
+- Polls the database for queued recordings
+- Loads raw ECG files from disk
+- Performs filtering and analysis
+- Generates plots and updates recording status
+
+---
+
+## Running the System
+
+### Development mode
+
+```bash
+python app.py --port <PORTNUMBER>
+```
+
+```bash
+python processor.py
+```
+
+If the worker is not running, uploaded recordings will remain queued.
+
+---
+
+## Production Considerations
+
+- Run the Flask application behind Apache using a reverse proxy
+- Use a WSGI server
+- Enable HTTPS in production environments
+- Restrict filesystem and database permissions according to least privilege
+
+---
+
+## Verification Checklist
+
+- Application reachable through web server
+- Authentication and RBAC function correctly
+- ECG upload succeeds
+- Background processing completes
+- Filtered output and plots are generated
+- Results are accessible only to authorized users
+
+---
+
+## Notes
+
+- This system is a **prototype**
+- Password hashing uses SHA-256
+- The background worker must be running for signal processing to occur
